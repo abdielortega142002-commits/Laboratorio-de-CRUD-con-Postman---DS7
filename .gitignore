@@ -1,0 +1,14 @@
+# Dependencias de Composer (se regeneran con "composer install")
+/vendor/
+
+# Archivo de credenciales y clave secreta JWT - NUNCA subir al repo
+config.php
+
+# Archivos de entorno
+.env
+
+# Archivos del sistema operativo / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

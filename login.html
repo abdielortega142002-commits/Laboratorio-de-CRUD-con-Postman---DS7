@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Laboratorio API JWT - Login / Registro</title>
+<style>
+    body { font-family: Arial, sans-serif; max-width: 480px; margin: 40px auto; background:#f4f6f8; }
+    .card { background:#fff; padding:24px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); margin-bottom:20px; }
+    h2 { margin-top:0; }
+    label { display:block; margin-top:12px; font-weight:bold; }
+    input { width:100%; padding:8px; margin-top:4px; box-sizing:border-box; }
+    button { margin-top:16px; padding:10px 16px; border:none; border-radius:4px; background:#2563eb; color:#fff; cursor:pointer; }
+    button:hover { background:#1d4ed8; }
+    pre { background:#111827; color:#a7f3d0; padding:12px; border-radius:6px; overflow:auto; }
+</style>
+</head>
+<body>
+
+<h1>Laboratorio API REST + JWT</h1>
+<p>Interfaz de prueba para registrar el usuario admin (contraseña hasheada con BCRYPT) y obtener el token JWT para usarlo en Postman.</p>
+
+<div class="card">
+    <h2>1. Registrar usuario</h2>
+    <label>Usuario</label>
+    <input type="text" id="reg_usuario" placeholder="admin">
+    <label>Contraseña</label>
+    <input type="password" id="reg_password" placeholder="********">
+    <button onclick="registrar()">Registrar</button>
+</div>
+
+<div class="card">
+    <h2>2. Iniciar sesión</h2>
+    <label>Usuario</label>
+    <input type="text" id="login_usuario" placeholder="admin">
+    <label>Contraseña</label>
+    <input type="password" id="login_password" placeholder="********">
+    <button onclick="login()">Iniciar sesión</button>
+</div>
+
+<div class="card">
+    <h2>Resultado</h2>
+    <pre id="resultado">Aquí aparecerá la respuesta del servidor...</pre>
+</div>
+
+<script>
+async function registrar() {
+    const usuario = document.getElementById('reg_usuario').value;
+    const password = document.getElementById('reg_password').value;
+
+    const resp = await fetch('index.php?ruta=registro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, password })
+    });
+    const data = await resp.json();
+    mostrar(data, resp.status);
+}
+
+async function login() {
+    const usuario = document.getElementById('login_usuario').value;
+    const password = document.getElementById('login_password').value;
+
+    const resp = await fetch('index.php?ruta=login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, password })
+    });
+    const data = await resp.json();
+    mostrar(data, resp.status);
+}
+
+function mostrar(data, status) {
+    document.getElementById('resultado').textContent =
+        'HTTP ' + status + '\n' + JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>

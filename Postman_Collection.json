@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Laboratorio API REST JWT",
+    "description": "Colección para probar el laboratorio de API REST con seguridad JWT (Irina Fong)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost/ApiRestFull" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Registrar usuario",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"admin\",\n  \"password\": \"admin123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=registro",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [{ "key": "ruta", "value": "registro" }]
+        }
+      }
+    },
+    {
+      "name": "2. Login (obtener token)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"admin\",\n  \"password\": \"admin123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=login",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [{ "key": "ruta", "value": "login" }]
+        }
+      }
+    },
+    {
+      "name": "3. Productos - Sin token (debe dar 401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=productos",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [{ "key": "ruta", "value": "productos" }]
+        }
+      }
+    },
+    {
+      "name": "4. Productos - Listar (GET)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=productos",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [{ "key": "ruta", "value": "productos" }]
+        }
+      }
+    },
+    {
+      "name": "5. Productos - Crear (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigo\": \"A002\",\n  \"producto\": \"Teclado mecánico\",\n  \"precio\": 35.00,\n  \"cantidad\": 10\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=productos",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [{ "key": "ruta", "value": "productos" }]
+        }
+      }
+    },
+    {
+      "name": "6. Productos - Actualizar (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigo\": \"A002\",\n  \"producto\": \"Teclado mecánico RGB\",\n  \"precio\": 42.00,\n  \"cantidad\": 8\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=productos&id=1",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [
+            { "key": "ruta", "value": "productos" },
+            { "key": "id", "value": "1" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Productos - Eliminar (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": {
+          "raw": "{{base_url}}/index.php?ruta=productos&id=1",
+          "host": ["{{base_url}}"],
+          "path": ["index.php"],
+          "query": [
+            { "key": "ruta", "value": "productos" },
+            { "key": "id", "value": "1" }
+          ]
+        }
+      }
+    }
+  ]
+}
